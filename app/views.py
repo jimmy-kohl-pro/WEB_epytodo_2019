@@ -14,9 +14,9 @@ import pymysql as sql
 @app.route('/index', methods=['GET'])
 def route_home():
     return render_template("index.html", title = "TITOUAN", myContent = " My SUPER content !! ")
-@app.route ('/signout', methods=[POST])
+@app.route ('/signout', methods=['POST'])
 def sign_out_user() :
-    return render_template(index.html)
-@app.route ('/user/task', methods=[GET])
+    return render_template("index.html")
+@app.route ('/user/task', methods=['GET'])
 def task_board() :
-    return render_template(index.html)
+    return render_template("index.html")
