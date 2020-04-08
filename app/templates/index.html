@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="style.css">
+<head>
+    <title>Batou</title>
+</head>
+<body>
+    {% set navlist = [
+        ('/', 'index', 'Index'),
+        ('/products', 'products', 'Products'),
+        ('/ account', 'account', 'Account')
+    ] -%}
+    <nav>
+        <ul>
+        {% for href , id, caption in navlist %}
+        <li> <a id="{{ id|e }}" href="{{ href|e }}">{{ caption|e }}</a> </li>
+        {% endfor %}
+        </ul>
+    </nav>
+    <p>
+        Some content
+    </p>
+;
+</body>
+</html>
