@@ -39,7 +39,7 @@ def route_all_users (username):
         print ("internal error")
     return jsonify(result)
 
-@app.route ('/signin', methods=[POST])
+@app.route ('/signin', methods=['POST'])
 def sign_in_user() :
     try:
         connect = sql.connect(host ="127.0.0.1", unix_socket = None, user = "root", passwd = "", db = "epytodo")
@@ -50,7 +50,7 @@ def sign_in_user() :
         print ("internal error")
     return jsonify(result)
 
-@app.route ('/user/task/del/id', methods=[POST])
+@app.route ('/user/task/del/id', methods=['POST'])
 def sign_in_user(name_of_the_task) :
     sql =  "DELETE INTO Tasks WHERE (task) " + " values (%s) "
 
@@ -78,7 +78,7 @@ def route_add_task(task, begin, end, status):
     print ("new task added")
     return ("success")
 
-@app.route ('/user/task', methods=[GET])
+@app.route ('/user/task', methods=['GET'])
 def list_user_tasks() :
     result = ""
     try :
@@ -90,7 +90,7 @@ def list_user_tasks() :
         print ("error : internal error")
         return ("error")
     return jsonify(result)
-@app.route ('/user/task/id', methods=[GET])
+@app.route ('/user/task/id', methods=['GET'])
 def show_task(name_of_the_task) :
     result = ""
     sql = "SELECT (task) FROM TASKS" + "values %s"
