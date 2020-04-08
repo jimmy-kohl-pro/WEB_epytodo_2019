@@ -1,0 +1,11 @@
+a.out
+*.c~
+*.gch
+vgcore.*
+'#*
+
+__pycache__
+*.pyc
+bin
+lib
+pyvenv.cfg
