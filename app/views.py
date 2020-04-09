@@ -14,9 +14,35 @@ import pymysql as sql
 @app.route('/index', methods=['GET'])
 def route_home():
     return render_template("index.html", title = "TITOUAN", myContent = " My SUPER content !! ")
-@app.route ('/signout', methods=['POST'])
-def sign_out_user() :
+
+@app.route ('/signint', methods=['POST'])
+def sign_in_user():
     return render_template("index.html")
+
+@app.route ('/signout', methods=['POST'])
+def sign_out_user():
+    return render_template("index.html")
+
+@app.route ('/user', methods=['GET'])
+def user():
+    return render_template("index.html")
+
 @app.route ('/user/task', methods=['GET'])
-def task_board() :
+def task_board():
+    return render_template("index.html")
+
+@app.route ('/user/task/id', methods=['GET'])
+def task_board_view():
+    return render_template("index.html")
+
+@app.route ('/user/task/id', methods=['POST'])
+def task_board_update():
+    return render_template("index.html")
+
+@app.route ('/user/task/add', methods=['POST'])
+def task_board_add():
+    return render_template("index.html")
+
+@app.route ('/user/task/del/id', methods=['POST'])
+def task_board_del():
     return render_template("index.html")
