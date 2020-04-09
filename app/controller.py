@@ -12,13 +12,13 @@ import pymysql as sql
 
 @app.route('/register', methods=['POST'])
 def route_add_user(username, passwd, email):
-    sql =  "Insert into Logins (user_id, username, password) " + " values (%s, %s, %s) "
+    command =  "Insert into Logins (user_id, username, password) " + " values (%s, %s, %s) "
 
     try:
         connect = sql.connect(host ="127.0.0.1", unix_socket = None, user = "root", passwd = "", db = "epytodo")
         cursor = connect.cursor()
-        cursor.execute(sql, (username, passwd, email))
-        connection.close(connect)
+        cursor.execute(command, (username, passwd, email))
+        connect.close(connect)
     except Exception :
         print ("error : internal error")
         return ("error")
@@ -51,13 +51,14 @@ def sign_in_user() :
     return jsonify(result)
 
 @app.route ('/user/task/del/id', methods=['POST'])
-def sign_in_user(name_of_the_task) :
-    sql =  "DELETE INTO Tasks WHERE (task) " + " values (%s) "
+def delete_task_user(name_of_the_task) :
+    command =  "DELETE INTO Tasks WHERE (task) " + " values (%s) "
 
     try:
         connect = sql.connect(host ="127.0.0.1", unix_socket = None, user = "root", passwd = "", db = "epytodo")
-        cursor.execute(sql, (task))
-        connection.close(connect)
+        cursor = connect.cursor()
+        cursor.execute(command, (name_of_the_task))
+        connect.close(connect)
     except Exception :
         print ("error : internal error")
         return ("error")
@@ -66,12 +67,13 @@ def sign_in_user(name_of_the_task) :
 
 @app.route('/task/add', methods=['POST'])
 def route_add_task(task, begin, end, status):
-    sql =  "INSERT INTO Tasks (task, begin, end, status) " + " values (%s, %s, %s, %s) "
+    command =  "INSERT INTO Tasks (task, begin, end, status) " + " values (%s, %s, %s, %s) "
 
     try:
         connect = sql.connect(host ="127.0.0.1", unix_socket = None, user = "root", passwd = "", db = "epytodo")
-        cursor.execute(sql, (task, begin, end, status))
-        connection.close(connect)
+        cursor = connect.cursor()
+        cursor.execute(command, (task, begin, end, status))
+        connect.close(connect)
     except Exception :
         print ("error : internal error")
         return ("error")
@@ -86,6 +88,7 @@ def list_user_tasks() :
         cursor = connect.cursor()
         cursor.execute()
         result = cursor.fetchall()
+        connect.close(connect)
     except Exception :
         print ("error : internal error")
         return ("error")
@@ -93,12 +96,12 @@ def list_user_tasks() :
 @app.route ('/user/task/id', methods=['GET'])
 def show_task(name_of_the_task) :
     result = ""
-    sql = "SELECT (task) FROM TASKS" + "values %s"
+    command = "SELECT (task) FROM TASKS" + "values %s"
 
     try:
         connect = sql.connect(host ="127.0.0.1", unix_socket = None, user = "root", passwd = "", db = "epytodo")
         cursor = connect.cursor(connect)
-        cursor.execute(sql, (name_of_the_task))
+        cursor.execute(command, (name_of_the_task))
         result = cursor.fetchall()
     except Exception:
         print ("error : internal error")
