@@ -13,8 +13,8 @@ CREATE TABLE task
 (
     task_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     title VARCHAR(10) NOT NULL,
-    begin TIMESTAMP DEFAULT UTC_TIMESTAMP,
-    end TIMESTAMP,
+    `begin` TIMESTAMP DEFAULT UTC_TIMESTAMP(),
+    `end` TIMESTAMP,
     status ENUM("not started", "in progress", "done") DEFAULT "not started"
 );
 
