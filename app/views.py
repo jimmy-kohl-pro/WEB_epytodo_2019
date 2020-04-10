@@ -8,6 +8,7 @@
 from app import app
 from flask import render_template
 from flask import jsonify
+import controller
 import pymysql as sql
 
 @app.route('/', methods=['GET'])
@@ -22,3 +23,10 @@ def sign_out_user():
 @app.route ('/user', methods=['GET'])
 def user():
     return render_template("index.html")
+@app.route('/register', methods=['POST'])
+def Register_user():
+    username =""
+    passwd = ""
+    email = ""
+
+    route_add_user(username, passwd, email)

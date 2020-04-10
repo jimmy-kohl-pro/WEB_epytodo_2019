@@ -10,3 +10,4 @@ bin
 lib
 include
 pyvenv.cfg
+lib64
