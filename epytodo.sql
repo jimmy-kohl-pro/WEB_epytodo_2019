@@ -13,13 +13,19 @@ CREATE TABLE task
 (
     task_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     title VARCHAR(10) NOT NULL,
-    `begin` TIMESTAMP DEFAULT UTC_TIMESTAMP(),
-    `end` TIMESTAMP,
+    `begin` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `end` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status ENUM("not started", "in progress", "done") DEFAULT "not started"
 );
 
 CREATE TABLE user_has_task
 (
-    fk_user_id VARCHAR(50) NOT NULL,
-    fk_task_id VARCHAR(50) NOT NULL
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fk_user_id INT(50) NOT NULL,
+    fk_task_id INT(50) NOT NULL
 );
+
+ALTER TABLE `user_has_task`
+  ADD CONSTRAINT fk_task_id FOREIGN KEY (fk_task_id) REFERENCES task (task_id),
+  ADD CONSTRAINT fk_user_id FOREIGN KEY (fk_user_id) REFERENCES user (user_id);
+COMMIT;

@@ -5,57 +5,75 @@
 ## models.py
 ##
 
+from app import app
 import pymysql as sql
 
-def connect_to_db() :
-    try:
-        connect = sql.connect(host ="127.0.0.1", unix_socket = None, user = "root", passwd = "", db = "epytodo")
-        cursor = connect.cursor()
-    except Exception :
-        print ("internal error")
-        return ("error")
-    return {'connect': connect, 'cursor': cursor}
+class connect_to_db() :
+    def __init__(self):
+        try:
+            self.connect = sql.connect(host = app.config['DATABASE_HOST'], unix_socket = app.config['DATABASE_SOCK'],
+                                    user = app.config['DATABASE_USER'], passwd = app.config['DATABASE_PASS'],
+                                    db = app.config['DATABASE_NAME'])
+            self.cursor = self.connect.cursor()
+        except Exception :
+            print ("internal error")
+
+def get_data(db_tools, command, data):
+    db_tools.cursor.execute(command, (data))
+    result = db_tools.cursor.fetchone()
+    return result
 
 def close_connect(connect, cursor):
-        cursor.close()
-        connect.close(connect)
+    cursor.close()
+    connect.close(connect)
+
+def task_in_db(db_tools, command, name_of_the_task):
+    result = ""
+    try :
+        db_tools.cursor.execute(command, (name_of_the_task))
+        result = db_tools.cursor.fetchone()
+    except Exception:
+        return ("error")
+    return (result)
 
 
-def task_in_db(cursor, command, name_of_the_task):
-        result = ""
+def del_task_in_db(db_tools, command, name_of_the_task):
+    try :
+        db_tools.cursor.execute(command, (name_of_the_task))
+        db_tools.connect.commit()
+    except Exception:
+        return ("error")
+    return ("success")
 
-        try :
-            cursor.execute(command, (name_of_the_task))
-            result = cursor.fetchall()
-        except Exception:
-            return ("error")
-        return (result)
-
-
-def del_task_in_db(cursor, command, name_of_the_task):
-        try :
-            cursor.execute(command, (name_of_the_task))
-        except Exception:
-            return ("error")
-        return ("success")
-
-def sign_in(cursor, command, username, passwd) :
+def sign_in(db_tools, command, username, passwd) :
     try:
-        cursor.execute(command, username, passwd)
+        db_tools.cursor.execute(command, username, passwd)
+        db_tools.connect.commit()
     except Exception:
         return("error")
     return ("success")
 
-def register(cursor, command, username, passwd, email) :
+def register(db_tools, command, username, passwd) :
     try:
-        cursor.execute(command, (username, passwd, email))
+        db_tools.cursor.execute(command, (username, passwd))
+        db_tools.connect.commit()
     except Exception:
         return ("error")
     return ("success")
 
-def add_task(cursor, command, task, begin, end ,status) :
+def add_task(db_tools, command, task, begin, end ,status) :
     try:
-        cursor.execute(command, (task, begin, end, status))
+        db_tools.cursor.execute(command, (task, begin, end, status))
+        db_tools.connect.commit()
     except Exception:
         return ("error")
     return ("success")
+
+def list_tasks(db_tools, result):
+    try:
+        db_tools.cursor.execute("SELECT * FROM `task`")
+        db_tools.connect.commit()
+        result = db_tools.cursor.fetchall()
+    except Exception:
+        return ("error")
+    return (result)

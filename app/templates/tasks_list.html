@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<head>
+    <title>{{title}}</title>
+</head>
+<body>
+    {% set navlist = [
+        ('/', 'index', 'Index'),
+        ('/products', 'products', 'Products'),
+        ('/account', 'account', 'Account')
+    ] -%}
+    <nav>
+        <ul>
+        {% for href , id, caption in navlist %}
+        <li> <a id="{{ id|e }}" href="{{ href|e }}">{{ caption|e }}</a> </li>
+        {% endfor %}
+        </ul>
+    </nav>
+    <p>
+        <h1>{{title}}</h1>
+        {% if g.user %}
+            <p> Bienvenue, {{ g.user }} !</p>
+            <form method="post" action="{{ url_for('view_sign_out_user') }}" class="inline">
+              <input type="hidden" name="extra_submit_param" value="extra_submit_value">
+              <button type="submit" name="submit_param" value="submit_value" class="link-button">
+                SignOut
+              </button>
+            </form>
+        {% else %}
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {% endwith %}
+            <form action="/register" method="POST">
+                <label for="task">Username</label>
+                <input name="task" id="task" required>
+                <label for="begin">Begin</label>
+                <input name="begin" id="begin" required>
+                <label for="end">End</label>
+                <input name="end" id="end" required>
+                <label for="status">status</label>
+                <input name="status" id="status" required>
+                <input type="submit" value="add">
+            </form>
+        {% endif %}
+    </p>
+</body>
+</html>
